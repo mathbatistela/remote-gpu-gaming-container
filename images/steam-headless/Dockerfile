@@ -10,7 +10,7 @@ RUN pacman -Sy --noconfirm tailscale
 RUN echo '#!/bin/bash' > /etc/cont-init.d/99-tailscale.sh && \
     echo 'if [ -n "${TAILSCALE_AUTH_KEY}" ]; then' >> /etc/cont-init.d/99-tailscale.sh && \
     echo '  echo "Starting Tailscale..."' >> /etc/cont-init.d/99-tailscale.sh && \
-    echo '  tailscaled --state=/var/lib/tailscale/tailscaled.state &' >> /etc/cont-init.d/99-tailscale.sh && \
+    echo '  tailscaled --state=/var/lib/tailscale/tailscaled.state --tun=userspace-networking &' >> /etc/cont-init.d/99-tailscale.sh && \
     echo '  sleep 2' >> /etc/cont-init.d/99-tailscale.sh && \
     echo '  tailscale up --authkey=${TAILSCALE_AUTH_KEY} --hostname=${TAILSCALE_HOSTNAME:-runpod-gaming}' >> /etc/cont-init.d/99-tailscale.sh && \
     echo '  echo "Tailscale IP: $(tailscale ip -4)"' >> /etc/cont-init.d/99-tailscale.sh && \
